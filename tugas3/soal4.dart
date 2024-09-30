@@ -1,3 +1,5 @@
+import 'dart:io';
+
 class Book {
   String title;
   String author;
@@ -14,12 +16,28 @@ class Book {
 class Library {
   List<Book> books = [];
 
-  void addBook(Book book) {
+  void addBook() {
+    print('Enter the title of the book:');
+    String title = stdin.readLineSync()!;
+    print('Enter the author of the book:');
+    String author = stdin.readLineSync()!;
+    print('Enter the year of the book:');
+    int year = int.parse(stdin.readLineSync()!);
+
+    Book book = Book(title: title, author: author, year: year);
     books.add(book);
     print('Book added: $book');
   }
 
-  void removeBook(Book book) {
+  void removeBook() {
+    print('Enter the title of the book to remove:');
+    String title = stdin.readLineSync()!;
+    print('Enter the author of the book to remove:');
+    String author = stdin.readLineSync()!;
+    print('Enter the year of the book to remove:');
+    int year = int.parse(stdin.readLineSync()!);
+
+    Book book = Book(title: title, author: author, year: year);
     if (books.contains(book)) {
       books.remove(book);
       print('Book removed: $book');
@@ -43,15 +61,30 @@ class Library {
 void main() {
   Library library = Library();
 
-  Book book1 = Book(title: 'Banana', author: 'Ryan Lee', year: 1960);
-  Book book2 = Book(title: 'Eclipse', author: 'Aryo Ben', year: 1949);
-  Book book3 = Book(title: 'Bom In Bali', author: 'Fije Jon', year: 1813);
+  while (true) {
+    print('Library Menu:');
+    print('1. Add Book');
+    print('2. Remove Book');
+    print('3. Display Books');
+    print('4. Exit');
 
-  library.displayBooks();
-  library.addBook(book1);
-  library.addBook(book2);
-  library.addBook(book3);
-  library.displayBooks();
-  library.removeBook(book2);
-  library.displayBooks();
+    int choice = int.parse(stdin.readLineSync()!);
+
+    switch (choice) {
+      case 1:
+        library.addBook();
+        break;
+      case 2:
+        library.removeBook();
+        break;
+      case 3:
+        library.displayBooks();
+        break;
+      case 4:
+        print('Exiting library...');
+        return;
+      default:
+        print('Invalid choice. Please choose a valid option.');
+    }
+  }
 }

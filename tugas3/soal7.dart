@@ -16,7 +16,13 @@ class Car extends Vehicle {
 
   @override
   void move() {
-    print('The $name car moves fast on roads at $speed km/h');
+    if (speed < 30){
+      print('The $name car moves slow through traffic at $speed km/h');
+    } else if (speed > 60){
+      print('The $name car moves fast through traffic at $speed km/h');
+    } else {
+      print('The $name car moves at a moderate speed through traffic at $speed km/h');
+    }
   }
 }
 
@@ -25,7 +31,13 @@ class Bike extends Vehicle {
 
   @override
   void move() {
-    print('The $name bike moves swiftly through traffic at $speed km/h');
+    if (speed < 30){
+      print('The $name bike moves slow through traffic at $speed km/h');
+    } else if (speed > 60){
+      print('The $name bike moves fast through traffic at $speed km/h');
+    } else {
+      print('The $name bike moves at a moderate speed through traffic at $speed km/h');
+    }
   }
 }
 
