@@ -68,23 +68,35 @@ Future<void> drawFireworkArc(String color, int centerX) async {
 }
 
 Future<void> showExplosion(String color, int centerX) async {
-  var centerY = 7; // Y position for explosion
+  var centerY = 7; // Posisi Y untuk ledakan
 
+  // Munculkan ledakan kembang api
   for (var step = 0; step < 10; step++) {
-    stdout.write('\x1B[2J'); // Clear screen
-    stdout.write(color); // Set foreground color
+    stdout.write('\x1B[2J'); // Bersihkan layar
 
-    for (var i = 0; i < 20; i++) {
-      var angle = (2 * pi / 20) * i;
-      var radius = step.toDouble();
+    // Mengatur warna teks untuk bintang ledakan
+    stdout.write(color); // Set warna foreground
+
+    int numPoints = 30; // Jumlah titik untuk membuat bentuk bulat
+    double radius = step.toDouble(); // Radius untuk setiap langkah
+
+    for (var i = 0; i < numPoints; i++) {
+      // Menghitung sudut untuk setiap titik
+      var angle = (2 * pi / numPoints) * i;
+
+      // Menghitung posisi x dan y dengan jari-jari tetap
       var x = (centerX + radius * cos(angle)).toInt();
       var y = (centerY + radius * sin(angle)).toInt();
-      stdout.write('\x1B[${y};${x}H${color}${color}*\x1B[0m'); // Draw explosion stars
+
+      // Gambar titik ledakan
+      stdout.write('\x1B[${y};${x}H${color}*'); // Menggambar titik ledakan
     }
-    await Future.delayed(Duration(milliseconds: 100)); // Explosion speed
+
+    await Future.delayed(Duration(milliseconds: 100)); // Kecepatan ledakan
   }
 
-  stdout.write('\x1B[0m'); // Reset colors
+  // Reset latar belakang dan teks ke default
+  stdout.write('\x1B[0m');
 }
 
 // Function to choose message

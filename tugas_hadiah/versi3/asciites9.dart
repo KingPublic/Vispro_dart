@@ -35,7 +35,7 @@ Future<void> fireworksDisplay(int fireworkCount) async {
   ];
 
   // Daftar posisi untuk kembang api kedua dan seterusnya
-  List<int> positions = [ 40, 50, 70, 130, 150]; // Posisi yang sudah ditentukan
+  List<int> positions = [40, 50, 70, 130, 150]; // Posisi yang sudah ditentukan
 
   for (var i = 0; i < fireworkCount; i++) {
     // Memilih warna untuk kembang api dan latar belakang
@@ -57,9 +57,8 @@ Future<void> fireworksDisplay(int fireworkCount) async {
     // Mengubah warna latar belakang
     stdout.write(bgColor); // Set warna latar belakang
 
-     // **Menambahkan delay di sini agar perubahan background terlihat jelas**
-    await Future.delayed(Duration(milliseconds: 400)); // Durasi perubahan background
-    // await Future.delayed(Duration(milliseconds: 1000)); // Tambahkan penundaan setelah ledakan
+    // **Menampilkan warna background lebih lama setelah ledakan selesai**
+    await Future.delayed(Duration(milliseconds: 400)); // Ini memperpanjang tampilan background saja
 
     // Menampilkan ledakan kembang api dengan warna bintang sesuai kembang api
     await showExplosion(color, centerX);
@@ -95,19 +94,15 @@ Future<void> showExplosion(String color, int centerX) async {
     // Mengatur warna teks untuk bintang ledakan
     stdout.write(color); // Set warna foreground
 
-    int numPoints = 30; // Jumlah titik untuk membuat bentuk bulat
-    double radius = step.toDouble(); // Radius untuk setiap langkah
-
-    for (var i = 0; i < numPoints; i++) {
-      // Menghitung sudut untuk setiap titik
-      var angle = (2 * pi / numPoints) * i;
-
-      // Menghitung posisi x dan y dengan jari-jari tetap
+    for (var i = 0; i < 40; i++) {
+      var angle = (2 * pi / 40) * i;
+      var radius = step.toDouble() + Random().nextDouble() * 2; // Variasi jari-jari
       var x = (centerX + radius * cos(angle)).toInt();
       var y = (centerY + radius * sin(angle)).toInt();
 
-      // Gambar titik ledakan
-      stdout.write('\x1B[${y};${x}H${color}*'); // Menggambar titik ledakan
+      // Gambar ledakan dengan variasi karakter untuk efek
+      var explosionChar = (Random().nextBool()) ? '*' : '.'; // Variasi antara '*' dan '.'
+      stdout.write('\x1B[${y};${x}H${color}${explosionChar}\x1B[0m'); // Warna foreground dan karakter
     }
 
     await Future.delayed(Duration(milliseconds: 100)); // Kecepatan ledakan
@@ -118,21 +113,28 @@ Future<void> showExplosion(String color, int centerX) async {
 }
 
 
-
 Future<void> showHBD() async {
   var message = 'HBD ANO';
   var terminalHeight = 20; // Tinggi terminal
   var startPosition = terminalHeight - 6; // Posisi awal untuk teks
 
+  var colors = [
+    '\x1B[32m', // Hijau
+    '\x1B[34m', // Biru
+    '\x1B[35m', // Merah Muda
+    '\x1B[31m', // Merah
+    '\x1B[33m', // Kuning
+  ];
+
   // Tampilkan teks dari bawah ke atas
   for (var i = startPosition; i >= 0; i--) {
     stdout.write('\x1B[2J'); // Bersihkan layar
-    drawLargeText(message, i); // Tampilkan teks besar pada posisi yang bergerak ke atas
+    drawLargeText(message, i, colors); // Tampilkan teks besar pada posisi yang bergerak ke atas
     await Future.delayed(Duration(milliseconds: 200)); // Delay per frame
   }
 }
 
-void drawLargeText(String message, int rowOffset) {
+void drawLargeText(String message, int rowOffset, List<String> colors) {
   var largeFont = {
     'H': [
       'HH   HH',
@@ -193,7 +195,9 @@ void drawLargeText(String message, int rowOffset) {
       line += largeFont[char]?[i] ?? '       '; // Jika karakter tidak ada, gunakan spasi
       line += ' '; // Menambahkan spasi setelah setiap huruf
     }
-    stdout.write('\x1B[${rowOffset + i};35H$line'); // Tampilkan baris dengan penempatan lebih ke tengah
+
+    // Pilih warna untuk setiap karakter
+    String color = colors[i % colors.length]; // Menggunakan warna berdasarkan urutan
+    stdout.write('\x1B[${rowOffset + i};35H${color}$line\x1B[0m'); // Tampilkan baris dengan penempatan lebih ke tengah
   }
 }
-

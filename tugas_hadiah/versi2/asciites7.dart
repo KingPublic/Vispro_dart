@@ -96,14 +96,15 @@ Future<void> showExplosion(String color, int centerX) async {
     // Mengatur warna teks untuk bintang ledakan
     stdout.write(color); // Set warna foreground
 
-    for (var i = 0; i < 20; i++) {
-      var angle = (2 * pi / 20) * i;
-      var radius = step.toDouble();
+    for (var i = 0; i < 40; i++) {
+      var angle = (2 * pi / 40) * i;
+      var radius = step.toDouble() + Random().nextDouble() * 2; // Variasi jari-jari
       var x = (centerX + radius * cos(angle)).toInt();
       var y = (centerY + radius * sin(angle)).toInt();
 
-      // Gambar bintang ledakan dengan warna foreground dan background yang sama
-      stdout.write('\x1B[${y};${x}H${color}${color}*\x1B[0m'); // Warna foreground dan background sama
+      // Gambar ledakan dengan variasi karakter untuk efek
+      var explosionChar = (Random().nextBool()) ? '*' : '.'; // Variasi antara '*' dan '.'
+      stdout.write('\x1B[${y};${x}H${color}${explosionChar}\x1B[0m'); // Warna foreground dan karakter
     }
 
     await Future.delayed(Duration(milliseconds: 100)); // Kecepatan ledakan
@@ -112,6 +113,7 @@ Future<void> showExplosion(String color, int centerX) async {
   // Reset latar belakang dan teks ke default
   stdout.write('\x1B[0m');
 }
+
 
 
 Future<void> showHBD() async {
