@@ -62,7 +62,7 @@ Node activateLoop(Node head) {
 
 Node craft(String userInput) {
   if (userInput.isEmpty) {
-    userInput = "HELLO"; // Default text if user input is empty
+    userInput = "Andrey"; // Default text if user input is empty
   }
   
   Node head = Node(userInput[0]);
