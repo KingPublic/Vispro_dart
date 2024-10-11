@@ -121,40 +121,40 @@ void renderGrid() async {
 
     if (segmentCounter == 2 || segmentCounter == snakeBody.length - 1) {
       // Jika bagian tubuh pertama atau terakhir
-      stdout.write('O'); // Gambar bagian kaki
+      stdout.write('*'); // Gambar bagian kaki
       // Gambar bagian kaki vertikal atau horizontal tergantung arah ular
       if (previousX != segment.x) {
         moveTo(segment.y + 2, segment.x + 1);
-        stdout.write('O');
+        stdout.write('*');
         moveTo(segment.y + 3, segment.x + 1);
-        stdout.write('O');
+        stdout.write('*');
         moveTo(segment.y, segment.x + 1);
-        stdout.write('O');
+        stdout.write('*');
         moveTo(segment.y - 1, segment.x + 1);
-        stdout.write('O');
+        stdout.write('*');
       } else {
         if (previousY < segment.y) {
           moveTo(segment.y + 1, segment.x + 2);
-          stdout.write('O');
+          stdout.write('*');
           moveTo(segment.y + 1, segment.x + 3);
-          stdout.write('O');
+          stdout.write('*');
           moveTo(segment.y + 1, segment.x);
-          stdout.write('O');
+          stdout.write('*');
           moveTo(segment.y + 1, segment.x - 1);
-          stdout.write('O');
+          stdout.write('*');
         } else {
           moveTo(segment.y + 1, segment.x + 2);
-          stdout.write('O');
+          stdout.write('*');
           moveTo(segment.y + 1, segment.x + 3);
-          stdout.write('O');
+          stdout.write('*');
           moveTo(segment.y + 1, segment.x);
-          stdout.write('O');
+          stdout.write('*');
           moveTo(segment.y + 1, segment.x - 1);
-          stdout.write('O');
+          stdout.write('*');
         }
       }
     } else {
-      stdout.write('O'); // Gambar bagian tubuh biasa
+      stdout.write('*'); // Gambar bagian tubuh biasa
     }
     previousX = segment.x; // Simpan posisi X saat ini
     previousY = segment.y; // Simpan posisi Y saat ini
@@ -163,7 +163,7 @@ void renderGrid() async {
 
   // Gambar kepala ular
   moveTo(snakeBody.first.y + 1, snakeBody.first.x + 1); // Pindah kursor ke kepala ular
-  stdout.write('@'); // Gambar kepala ular
+  stdout.write('0'); // Gambar kepala ular
 
   // Gambar makanan
   moveTo(foodPosition.y + 1, foodPosition.x + 1); // Pindah kursor ke posisi makanan
